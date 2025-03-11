@@ -15,15 +15,16 @@ public class Main {
 
         // 메뉴판 출력
         System.out.println("[🍔 SHAKESHACK MENU 🍔]");
-        int a = 1;
+        int index = 1;
         for (MenuItem b : burgers) {
-            System.out.print(a++ + ". ");
+            System.out.print(index++ + ". ");
             System.out.printf("%-15s | W %-3.1f | %s\n", b.name, b.price, b.detail);
         }
         System.out.println("0. 종료");
         System.out.println("-----------------------------------------------------------------------");
 
-        int answer;
+        // switch로 작성 해보기
+        int answer; // index값 기반 입력
         while (true) { // 입력 값 검증하기! (정수 여부, 보기에 있는 번호인지)
             System.out.print("입력: ");
 
@@ -36,23 +37,23 @@ public class Main {
             answer = sc.nextInt();
             sc.nextLine();
 
-            if (answer>=0 && answer <=4) { // 입력 값 0~4인지 확인하기
+            switch(answer) {
+                case 0:
+                    System.out.println("\n종료합니다.");
+                    return;
 
-                break;
-            } else {
-                System.out.println("[error] 보기에 있는 값을 입력해주세요.");
+                case 1,2,3,4 :
+                    System.out.println("");
+                    System.out.println("선택하신 메뉴는 "+ burgers.get(answer-1).name + "입니다.\n" +
+                                        "가격은 " + burgers.get(answer-1).price + "천원 입니다. \n" +
+                                        "(메뉴 설명: " + burgers.get(answer-1).detail + ")");
+                    return;
+
+                default :
+                    System.out.println("[error] 보기에 있는 값을 입력해주세요.");
             }
         }
 
-        // 사용자 입력 값(answer)검증 후, 출력 내용
-        if (answer == 0) {
-            System.out.println("\n종료합니다.");
-        } else {
-            System.out.println("");
-            System.out.println("선택하신 메뉴는 "+ burgers.get(answer-1).name + "입니다.\n" +
-                    "가격은 " + burgers.get(answer-1).price + "천원 입니다. \n" +
-                    "(메뉴 설명: " + burgers.get(answer-1).detail + ")");
-        }
 
     }
 }
