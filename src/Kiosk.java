@@ -5,106 +5,40 @@ import java.util.Scanner;
 
 public class Kiosk {
     // 1. 속성
+    List<Menu> menus = new ArrayList<>(); // 메뉴 초기화
+
 
     // 2. 생성자
 
-    // 3. 기능
 
-    static void start() {
+    // 3. 기능
+    void start() {
         Scanner sc = new Scanner(System.in);
-        Menu menu = new Menu();
 
         // 메뉴 초기화
-        List<Menu> menus = new ArrayList<>();
-        initializeMenu(); // 상세 메뉴 정보 담기
+        initializeMenu();
 
         // 메뉴 입출력 반복문 시작
-        int answer = -1; // while문 반복 종료를 위한 변수
+        int answer1 = -1; // while문 반복 종료를 위한 변수
 
-        while (answer != 0) {
-            // 기본 메뉴판 출력
-            Menu.displayMainMenu();
+        while (answer1 != 0) {
+            Menu.displayMainMenu(); // 기본 메뉴판 출력
+            answer1 = inputAnswer(sc); // 사용자 값 입력 받기
 
-            // 사용자 값 입력 받기
-            answer = inputAnswer(sc);
-
-            // 메뉴 출력하기
-//            burgers.displayCategoryMenu();
-
-
+            if (answer1 == 0) break; // 0이면 종료
+            else if (answer1 >= 1 || answer1 <= 3) {
+                menus.get(answer1 - 1).displayCategoryMenu(); // 카테고리 상세 메뉴 출력하기
+                int chosenItem = inputAnswer(sc); // 상세 메뉴 고르기
+                showChosenItem(answer1, chosenItem);
+            } else {
+                System.out.println("[error] 보기에 있는 값을 입력해주세요.");
+            }
         }
         System.out.println("\n프로그램을 종료합니다.");
-
-//        while(answer != 0){
-//            // 기본 메뉴판 출력
-//            Menu.displayMainMenu();
-//
-//           // 사용자 입력, 검증 출력
-//            while (true) {
-//            System.out.print("▶️ 입력: ");
-//
-//            // 입력 값 정수여부 검증하기
-//            if (!sc.hasNextInt()) { // 입력 값 정수여부 확인하기
-//                System.out.println("[error] 보기에 있는 값을 입력해주세요.");
-//                sc.nextLine();
-//                continue; // 정수가 아니면 다시 입력받음
-//            }
-//
-//            // 정수일 경우 answer에 값 대입하기
-//            answer = sc.nextInt();
-//            sc.nextLine();
-//
-//            // 상세 메뉴 리스트 출력하기
-//            List<MenuItem> chosenMenu = menu.getBurgers();
-//            switch (answer) {
-//                case 0:
-//                    System.out.println("\n프로그램을 종료합니다.");
-//                    return;
-//
-//                case 1:
-//                    menu.displayBurgers();
-//                    chosenMenu = menu.getBurgers();
-//                    break;
-//
-//                case 2:
-//                    menu.displayDrinks();
-//                    chosenMenu = menu.getDrinks();
-//                    break;
-//
-//                case 3:
-//                    menu.displayDesserts();
-//                    chosenMenu = menu.getDesserts();
-//                    break;
-//
-//                default:
-//                    System.out.println("[error] 보기에 있는 값을 입력해주세요.");
-//                    continue;
-//            }
-//
-//            // 상세 메뉴 입력받기 (예외처리 일단 보류....)
-//            System.out.print("▶️ 메뉴 선택: ");
-//            int chosenItem = sc.nextInt();
-//            sc.nextLine();
-//
-//            if(chosenItem ==0) {
-//                System.out.println("\n이전으로 돌아갑니다.");
-//                break;
-//            } else {
-//                System.out.print("✅ 선택한 메뉴: ");
-//                System.out.printf("%s | W %-3.1f | %s\n",
-//                        chosenMenu.get(chosenItem - 1).name,
-//                        chosenMenu.get(chosenItem - 1).price,
-//                        chosenMenu.get(chosenItem - 1).detail);
-//            }
-//
-//            break;
-//        }
-//
-//        }
     }
 
     // 메뉴 초기화하기
-    static void initializeMenu() {
+    public void initializeMenu() {
         // 카테고리별 객체 만들기
         Menu burgers = new Menu("BURGERS", "🍔");
         Menu drinks = new Menu("DRINKS", "🥤");
@@ -129,10 +63,9 @@ public class Kiosk {
         desserts.addMenuItems(new MenuItem("ChickenNuggets", 2.9, "닭안심살로 만든 담백하고 촉촉한 치킨너겟"));
 
         // List<Menu>에 추가
-//        menus.add(burgers);
-
-
-
+        menus.add(burgers);
+        menus.add(drinks);
+        menus.add(desserts);
     }
 
     // 정수값 입력 받기
@@ -147,14 +80,25 @@ public class Kiosk {
                 continue; // 정수가 아니면 다시 입력받음
             }
 
-            // 정수일 경우 answer에 값 대입하기
-            int answer = sc.nextInt();
+            // 정수일 경우 num에 값 대입하기
+            int num = sc.nextInt();
             sc.nextLine();
-            return answer; // 입력값 반환
+            return num; // 입력값 반환
         }
 
 
     }
 
-    //
+    // 선택한 메뉴 출력하기
+    public void showChosenItem(int answer1, int chosenItem){
+        if (chosenItem == 0) {
+            System.out.println("\n이전으로 돌아갑니다.");
+        } else {
+            System.out.print("✅ 선택한 메뉴: ");
+            System.out.printf("%s | W %-3.1f | %s\n",
+                    menus.get(answer1 -1).getMenuItems().get(chosenItem - 1).getName(),
+                    menus.get(answer1 -1).getMenuItems().get(chosenItem - 1).getPrice(),
+                    menus.get(answer1 -1).getMenuItems().get(chosenItem - 1).getDetail());
+        }
+    }
 }
