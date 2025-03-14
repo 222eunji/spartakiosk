@@ -22,7 +22,6 @@ public class Menu {
         System.out.println("2. Drinks");
         System.out.println("3. Desserts");
         System.out.println("0. 종료");
-//      System.out.println("-----------------------------------------------------------------------");
     }
 
     void displayCategoryMenu(){

@@ -44,10 +44,10 @@ public class Kiosk {
             } else if (answer1 == 4) {
                 // 장바구니 확인하기
                 showOrderItem();
-                System.out.println("죄송합니다. 주문 준비 중입니다.😭💦");
+                System.out.println("죄송합니다. 주문 준비 중입니다.😭💦"); // 미완성
 
                 // 총액 확인하기
-//                System.out.println("🪙 TOTAL 🪙");
+//                System.out.println("💳 TOTAL 💳"); // 미완성
 
                 return;
                 // 장바구니 확인하기 [Orders]
